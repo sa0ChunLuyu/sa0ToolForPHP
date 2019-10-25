@@ -1,5 +1,4 @@
 <?php
-$config = array(
+$appConfig = array(
     'controllerPath' => 'controller',
-    'db' => array(),
 );
