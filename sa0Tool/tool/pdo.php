@@ -11,26 +11,26 @@ class pdoController
      */
     public $pdo;
 
-    public function __construct()
+    final function __construct()
     {
         $dbConfig = APP_CONFIG['db'];
         try {
             $this->pdo = new PDO('mysql:host=' . $dbConfig['host'] . ';dbname=' . $dbConfig['dbName'] . ';port=' . $dbConfig['port'], $dbConfig['user'], $dbConfig['password']);
             $this->pdo->exec('set names utf8');
         } catch (PDOException $e) {
-            echo '数据库连接失败' . $e->getMessage();
+            echo '数据库连接失败 ' . $e->getMessage();
             exit();
         }
     }
 
-    public function getWhere($where)
+    final function getWhere($where)
     {
         if (empty($where)) return null;
         $return = array(' where ' . $where[0] . ' ', $where[1]);
         return $return;
     }
 
-    public function createRow($tableName, $data = array())
+    final function createRow($tableName, $data = array())
     {
         if (!is_array($data)) {
             $data = array();
@@ -50,7 +50,7 @@ class pdoController
         return $this->pdo->lastInsertId();
     }
 
-    public function deleteRow($tableName, $whereData)
+    final function deleteRow($tableName, $whereData)
     {
         if (empty($whereData)) exit();
         $where = $this->getWhere($whereData);
@@ -59,7 +59,7 @@ class pdoController
         return $pretreatment->execute($where[1]);
     }
 
-    public function updateRow($tableName, $whereData, $data = array())
+    final function updateRow($tableName, $whereData, $data = array())
     {
         if (!is_array($data)) {
             $data = array();
@@ -77,7 +77,7 @@ class pdoController
         return $pretreatment->execute($updateData);
     }
 
-    public function findRow($tableName, $whereData, $rows = false)
+    final function findRow($tableName, $whereData, $rows = false)
     {
         if (empty($whereData)) exit();
         $where = $this->getWhere($whereData);
@@ -91,14 +91,14 @@ class pdoController
         }
     }
 
-    public function doSql($sql, $data)
+    final function doSql($sql, $data)
     {
         $pretreatment = $this->pdo->prepare($sql);
         $pretreatment->execute($data);
         return $pretreatment->fetchAll(\PDO::FETCH_ASSOC);
     }
 
-    public function pdoClose()
+    final function pdoClose()
     {
         $this->pdo = null;
     }

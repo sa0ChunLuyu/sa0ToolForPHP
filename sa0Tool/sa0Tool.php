@@ -52,7 +52,6 @@ class sa0Tool
         if ($do[1]) $do[1] = in_array('pdo', APP_CONFIG['include'][CONTROLLER_NAME]);
         $do = $do[0] || $do[1];
         if (!$do) return;
-
-//        $this->pdo = new pdoController();
+        $this->pdo = new pdoController();
     }
 }

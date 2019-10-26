@@ -8,5 +8,11 @@ class toolController extends sa0Tool
 {
     public function index()
     {
+        $res = $this->pdo->createRow('users', array(
+            'userNickname' => 'yo',
+            'createTime' => time(),
+        ));
+
+        $this->json($res);
     }
 }
