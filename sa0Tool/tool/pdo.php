@@ -77,7 +77,7 @@ class pdoController
         return $pretreatment->execute($updateData);
     }
 
-    final function findRow($tableName, $whereData, $rows = false)
+    final function readRow($tableName, $whereData, $rows = false)
     {
         if (empty($whereData)) exit();
         $where = $this->getWhere($whereData);
