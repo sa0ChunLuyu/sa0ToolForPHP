@@ -48,7 +48,7 @@ class sa0Tool
 
     final function createPDO()
     {
-        if (!isset(APP_CONFIG['db'])) exit(json_encode(array('msg' => false, 'data' => strtoupper('db config not found'))));
+        if (!isset(APP_CONFIG['db'])) $this->json(strtoupper('db config not found'), false);
         $do = array(false, false);
         $do[0] = isset(APP_CONFIG['include']['public']);
         $do[1] = isset(APP_CONFIG['include'][CONTROLLER_NAME]);
@@ -61,7 +61,7 @@ class sa0Tool
 
     final function createRedis()
     {
-        if (!isset(APP_CONFIG['redis'])) exit(json_encode(array('msg' => false, 'data' => strtoupper('redis config not found'))));
+        if (!isset(APP_CONFIG['redis'])) $this->json(strtoupper('redis config not found'), false);
         $this->redis = (new phpRedis)->getRedis();
     }
 }
