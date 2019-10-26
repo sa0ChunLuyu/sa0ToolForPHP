@@ -111,7 +111,7 @@ $appConfig = array(
             ),
             // 根据 控制器 引入
             'controllerName' => array(
-                'pinyin'
+                'phpRedis'
             ),
     ),
 // ...
@@ -146,4 +146,29 @@ $insert = $this->pdo->createRow($tableName, $data = array());
 $update = $this->pdo->updateRow($tableName, $whereData, $data = array());
 $select = $this->pdo->readRow($tableName, $whereData, $rows = false);
 $delete = $this->pdo->deleteRow($tableName, $whereData);
+```
+
+### Redis 
+* 文件引入 见 Include 部分。
+#### 配置
+```php
+./backend/config.php
+
+<?php
+$appConfig = array(
+// ...
+    'db' => array(
+        'host' => '127.0.0.1',
+        'port' => '6379',
+        'password' => 'xxxxxxxx', // 可选
+    ),
+// ...
+);
+```
+
+#### 使用
+```php
+<?php
+$this->redis->set($key, $value);
+echo $this->redis->get($key);
 ```

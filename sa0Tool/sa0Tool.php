@@ -21,6 +21,10 @@ class sa0Tool
         // PDO 创建 开始
         $this->createPDO();
         // PDO 创建 结束
+
+        // Redis 创建 开始
+        $this->createRedis();
+        // Redis 创建 结束
     }
 
     final function json($data, $msg = true)
@@ -44,7 +48,7 @@ class sa0Tool
 
     final function createPDO()
     {
-        if (!isset(APP_CONFIG['db'])) return;
+        if (!isset(APP_CONFIG['db'])) exit(json_encode(array('msg' => false, 'data' => strtoupper('db config not found'))));
         $do = array(false, false);
         $do[0] = isset(APP_CONFIG['include']['public']);
         $do[1] = isset(APP_CONFIG['include'][CONTROLLER_NAME]);
@@ -53,5 +57,11 @@ class sa0Tool
         $do = $do[0] || $do[1];
         if (!$do) return;
         $this->pdo = new pdoController();
+    }
+
+    final function createRedis()
+    {
+        if (!isset(APP_CONFIG['redis'])) exit(json_encode(array('msg' => false, 'data' => strtoupper('redis config not found'))));
+        $this->redis = (new phpRedis)->getRedis();
     }
 }
