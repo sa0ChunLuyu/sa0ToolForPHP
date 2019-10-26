@@ -29,7 +29,7 @@ class sa0Tool
 
     final function json($data, $msg = true)
     {
-        exit(json_encode(array('msg' => $msg, 'data' => $data)));
+        exit(json_encode(array('msg' => $msg, 'data' => $data), JSON_UNESCAPED_UNICODE));
     }
 
     final function forInclude()
