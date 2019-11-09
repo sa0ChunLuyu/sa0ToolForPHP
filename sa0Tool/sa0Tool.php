@@ -62,6 +62,67 @@ class sa0Tool
     final function createRedis()
     {
         if (!isset(APP_CONFIG['redis'])) $this->json(strtoupper('redis config not found'), false);
+        $do[0] = isset(APP_CONFIG['include']['public']);
+        $do[1] = isset(APP_CONFIG['include'][CONTROLLER_NAME]);
+        if ($do[0]) $do[0] = in_array('phpRedis', APP_CONFIG['include']['public']);
+        if ($do[1]) $do[1] = in_array('phpRedis', APP_CONFIG['include'][CONTROLLER_NAME]);
+        $do = $do[0] || $do[1];
+        if (!$do) return;
         $this->redis = (new phpRedis)->getRedis();
+    }
+
+    final function requestData($key = null)
+    {
+        $bodyData = @file_get_contents('php://input');
+        $bodyData = json_decode($bodyData, true);
+        if (!$key) return array(
+            'POST' => $_POST,
+            'GET' => $_GET,
+            'BODY' => $bodyData,
+        );
+        if (isset($_POST[$key])) return $_POST[$key];
+        if (isset($_GET[$key])) return $_GET[$key];
+        return isset($bodyData[$key]) ? $bodyData[$key] : false;
+    }
+
+    final function header($name)
+    {
+        return $_SERVER['HTTP_' . strtoupper($name)];
+    }
+
+    final function view($path)
+    {
+        include_once APP_CONFIG['viewPath'] . '/' . $path;
+    }
+
+    final function sa0Get($e)
+    {
+        $url = $e['url'] . http_build_query($e['data']);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        $result = curl_exec($ch);
+        curl_close($ch);
+        return $result;
+    }
+
+    final function sa0Post($e, $headers = array('content-type:application/x-www-form-urlencoded'))
+    {
+        $durl = $e['url'];
+        $post_data = json_encode($e['data'], true);
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $durl);
+        curl_setopt($curl, CURLOPT_HEADER, false);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $post_data);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($curl, CURLINFO_HEADER_OUT, true);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE);
+        $data = curl_exec($curl);
+        curl_close($curl);
+        return $data;
     }
 }
