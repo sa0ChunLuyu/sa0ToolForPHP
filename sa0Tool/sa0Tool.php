@@ -15,63 +15,24 @@ class sa0Tool
     final function forConstruct()
     {
         // 引入 依赖文件 开始
-        $this->forInclude();
+        $this->forInclude_();
         // 引入 依赖文件 结束
 
         // PDO 创建 开始
-        $this->createPDO();
+        $this->createPDO_();
         // PDO 创建 结束
 
         // Redis 创建 开始
-        $this->createRedis();
+        $this->createRedis_();
         // Redis 创建 结束
     }
 
-    final function json($data, $msg = true)
+    final function json_($data = 'Yo', $state = true, $stateKey = 'state')
     {
-        exit(json_encode(array('msg' => $msg, 'data' => $data), JSON_UNESCAPED_UNICODE));
+        exit(json_encode(array($stateKey => $state, 'data' => $data), JSON_UNESCAPED_UNICODE));
     }
 
-    final function forInclude()
-    {
-        $includeArray = isset(APP_CONFIG['include']['public']) ? APP_CONFIG['include']['public'] : array();
-        $includeArray = isset(APP_CONFIG['include'][CONTROLLER_NAME]) ? array_merge($includeArray, APP_CONFIG['include'][CONTROLLER_NAME]) : $includeArray;
-        $includeArray = array_flip(array_flip($includeArray));
-        foreach ($includeArray as $value) {
-            $filePath = is_file(__DIR__ . '/tool/' . $value . '.php') ? __DIR__ : false;
-            $filePath = is_file(APP_PATH . '/tool/' . $value . '.php') ? APP_PATH : $filePath;
-            if (!$filePath) $this->json(strtoupper('include ' . $value . ' not found'), false);
-
-            include $filePath . '/tool/' . $value . '.php';
-        }
-    }
-
-    final function createPDO()
-    {
-        if (!isset(APP_CONFIG['db'])) $this->json(strtoupper('db config not found'), false);
-        $do = array(false, false);
-        $do[0] = isset(APP_CONFIG['include']['public']);
-        $do[1] = isset(APP_CONFIG['include'][CONTROLLER_NAME]);
-        if ($do[0]) $do[0] = in_array('pdo', APP_CONFIG['include']['public']);
-        if ($do[1]) $do[1] = in_array('pdo', APP_CONFIG['include'][CONTROLLER_NAME]);
-        $do = $do[0] || $do[1];
-        if (!$do) return;
-        $this->pdo = new pdoController();
-    }
-
-    final function createRedis()
-    {
-        if (!isset(APP_CONFIG['redis'])) $this->json(strtoupper('redis config not found'), false);
-        $do[0] = isset(APP_CONFIG['include']['public']);
-        $do[1] = isset(APP_CONFIG['include'][CONTROLLER_NAME]);
-        if ($do[0]) $do[0] = in_array('phpRedis', APP_CONFIG['include']['public']);
-        if ($do[1]) $do[1] = in_array('phpRedis', APP_CONFIG['include'][CONTROLLER_NAME]);
-        $do = $do[0] || $do[1];
-        if (!$do) return;
-        $this->redis = (new phpRedis)->getRedis();
-    }
-
-    final function requestData($key = null)
+    final function data_($key = null)
     {
         $bodyData = @file_get_contents('php://input');
         $bodyData = json_decode($bodyData, true);
@@ -85,17 +46,17 @@ class sa0Tool
         return isset($bodyData[$key]) ? $bodyData[$key] : false;
     }
 
-    final function header($name)
+    final function header_($name)
     {
         return $_SERVER['HTTP_' . strtoupper($name)];
     }
 
-    final function view($path)
+    final function view_($path)
     {
         include_once APP_CONFIG['viewPath'] . '/' . $path;
     }
 
-    final function sa0Get($e)
+    final function get_($e)
     {
         $url = $e['url'] . http_build_query($e['data']);
         $ch = curl_init();
@@ -107,7 +68,7 @@ class sa0Tool
         return $result;
     }
 
-    final function sa0Post($e, $headers = array('content-type:application/x-www-form-urlencoded'))
+    final function post_($e, $headers = array('content-type:application/x-www-form-urlencoded'))
     {
         $durl = $e['url'];
         $post_data = json_encode($e['data'], true);
@@ -124,5 +85,44 @@ class sa0Tool
         $data = curl_exec($curl);
         curl_close($curl);
         return $data;
+    }
+
+    final function forInclude_()
+    {
+        $includeArray = isset(APP_CONFIG['include']['public']) ? APP_CONFIG['include']['public'] : array();
+        $includeArray = isset(APP_CONFIG['include'][CONTROLLER_NAME]) ? array_merge($includeArray, APP_CONFIG['include'][CONTROLLER_NAME]) : $includeArray;
+        $includeArray = array_flip(array_flip($includeArray));
+        foreach ($includeArray as $value) {
+            $filePath = is_file(__DIR__ . '/tool/' . $value . '.php') ? __DIR__ : false;
+            $filePath = is_file(APP_PATH . '/tool/' . $value . '.php') ? APP_PATH : $filePath;
+            if (!$filePath) $this->json(strtoupper('include ' . $value . ' not found'), false);
+
+            include $filePath . '/tool/' . $value . '.php';
+        }
+    }
+
+    final function createPDO_()
+    {
+        if (!isset(APP_CONFIG['db'])) $this->json(strtoupper('db config not found'), false);
+        $do = array(false, false);
+        $do[0] = isset(APP_CONFIG['include']['public']);
+        $do[1] = isset(APP_CONFIG['include'][CONTROLLER_NAME]);
+        if ($do[0]) $do[0] = in_array('pdo', APP_CONFIG['include']['public']);
+        if ($do[1]) $do[1] = in_array('pdo', APP_CONFIG['include'][CONTROLLER_NAME]);
+        $do = $do[0] || $do[1];
+        if (!$do) return;
+        $this->pdo = new pdoController();
+    }
+
+    final function createRedis_()
+    {
+        if (!isset(APP_CONFIG['redis'])) $this->json(strtoupper('redis config not found'), false);
+        $do[0] = isset(APP_CONFIG['include']['public']);
+        $do[1] = isset(APP_CONFIG['include'][CONTROLLER_NAME]);
+        if ($do[0]) $do[0] = in_array('phpRedis', APP_CONFIG['include']['public']);
+        if ($do[1]) $do[1] = in_array('phpRedis', APP_CONFIG['include'][CONTROLLER_NAME]);
+        $do = $do[0] || $do[1];
+        if (!$do) return;
+        $this->redis = (new phpRedis)->getRedis();
     }
 }
