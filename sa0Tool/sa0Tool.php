@@ -32,7 +32,7 @@ class sa0Tool
         exit(json_encode(array($stateKey => $state, 'data' => $data), JSON_UNESCAPED_UNICODE));
     }
 
-    final function time_($type = 10)
+    final function time_($type = 13)
     {
         if ($type !== 13) return time();
         return floor(microtime(get_as_float) * 1000);
