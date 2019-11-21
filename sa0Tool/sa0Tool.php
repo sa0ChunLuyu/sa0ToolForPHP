@@ -62,7 +62,7 @@ class sa0Tool
         return ($ip);
     }
 
-    final function data_($key = null)
+    final function data_($key = null, $default_value = false)
     {
         $bodyData = @file_get_contents('php://input');
         $bodyData = json_decode($bodyData, true);
@@ -73,7 +73,7 @@ class sa0Tool
         );
         if (isset($_POST[$key])) return $_POST[$key];
         if (isset($_GET[$key])) return $_GET[$key];
-        return isset($bodyData[$key]) ? $bodyData[$key] : false;
+        return isset($bodyData[$key]) ? $bodyData[$key] : $default_value;
     }
 
     final function header_($name)
