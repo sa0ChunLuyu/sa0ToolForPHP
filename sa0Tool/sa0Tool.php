@@ -155,4 +155,18 @@ class sa0Tool
         if (!$do) return;
         $this->redis = (new phpRedis)->getRedis();
     }
+
+    public function sortByKey_($array, $keys, $sort = 'asc')
+    {
+        $newArr = $valArr = array();
+        foreach ($array as $key => $value) {
+            $valArr[$key] = $value[$keys];
+        }
+        ($sort == 'asc') ? asort($valArr) : arsort($valArr);
+        reset($valArr);
+        foreach ($valArr as $key => $value) {
+            $newArr[$key] = $array[$key];
+        }
+        return $newArr;
+    }
 }
