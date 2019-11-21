@@ -32,9 +32,9 @@ class sa0Tool
         exit(json_encode(array($stateKey => $state, 'data' => $data), JSON_UNESCAPED_UNICODE));
     }
 
-    final function time_($l = 10)
+    final function time_($type = 10)
     {
-        if ($l !== 13) return time();
+        if ($type !== 13) return time();
         list($t1, $t2) = explode(' ', microtime());
         return (float)sprintf('%.0f', (floatval($t1) + floatval($t2)) * 1000);
     }
