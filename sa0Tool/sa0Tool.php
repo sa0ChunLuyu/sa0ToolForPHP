@@ -32,6 +32,12 @@ class sa0Tool
         exit(json_encode(array($stateKey => $state, 'data' => $data), JSON_UNESCAPED_UNICODE));
     }
 
+    final function time_($type = 10)
+    {
+        if ($type !== 13) return time();
+        return floor(microtime(get_as_float) * 1000);
+    }
+
     final function ip_()
     {
         if ($_SERVER["HTTP_CLIENT_IP"] && strcasecmp($_SERVER["HTTP_CLIENT_IP"], "unknown")) {
