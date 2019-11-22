@@ -165,7 +165,7 @@ class sa0Tool
         ($sort == 'asc') ? asort($valArr) : arsort($valArr);
         reset($valArr);
         foreach ($valArr as $key => $value) {
-            $newArr[$key] = $array[$key];
+            $newArr[$sort . $key] = $array[$key];
         }
         return $newArr;
     }
