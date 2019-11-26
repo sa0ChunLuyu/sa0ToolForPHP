@@ -45,7 +45,7 @@ class sa0ToolMaker
         $controllerOrigin = isset(APP_CONFIG['allowOrigin'][$fileName]) ? APP_CONFIG['allowOrigin'][$fileName] : array();
         $allow_origin = array_merge($appOrigin, $controllerOrigin);
 
-        if (in_array($origin, $allow_origin) || in_array("*", $allow_origin)) header('Access-Control-Allow-Origin:' . $origin);
+        if (in_array($origin, $allow_origin) || in_array("*", $allow_origin)) header('Access-Control-Allow-Origin:*');
         // 跨域设置 结束
 
         // 请求类型判断 开始
