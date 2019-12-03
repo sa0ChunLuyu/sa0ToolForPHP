@@ -11,7 +11,6 @@ class sa0ToolMaker
 
     function __construct()
     {
-
         // 设置 sa0Tool 信息 开始
         define(SA0_TOOL_TITLE, 'sa0Tool');
         define(SA0_TOOL_VERSION, 'P02');

@@ -40,26 +40,11 @@ class sa0Tool
 
     final function ip_()
     {
-        if ($_SERVER["HTTP_CLIENT_IP"] && strcasecmp($_SERVER["HTTP_CLIENT_IP"], "unknown")) {
-            $ip = $_SERVER["HTTP_CLIENT_IP"];
-        } else {
-            if ($_SERVER["HTTP_X_FORWARDED_FOR"] && strcasecmp($_SERVER["HTTP_X_FORWARDED_FOR"], "unknown")) {
-                $ip = $_SERVER["HTTP_X_FORWARDED_FOR"];
-            } else {
-                if ($_SERVER["REMOTE_ADDR"] && strcasecmp($_SERVER["REMOTE_ADDR"], "unknown")) {
-                    $ip = $_SERVER["REMOTE_ADDR"];
-                } else {
-                    if (isset ($_SERVER['REMOTE_ADDR']) && $_SERVER['REMOTE_ADDR'] && strcasecmp($_SERVER['REMOTE_ADDR'],
-                            "unknown")
-                    ) {
-                        $ip = $_SERVER['REMOTE_ADDR'];
-                    } else {
-                        $ip = "unknown";
-                    }
-                }
-            }
-        }
-        return ($ip);
+        if ($_SERVER["HTTP_CLIENT_IP"] && strcasecmp($_SERVER["HTTP_CLIENT_IP"], "unknown")) return ($_SERVER["HTTP_CLIENT_IP"]);
+        if ($_SERVER["HTTP_X_FORWARDED_FOR"] && strcasecmp($_SERVER["HTTP_X_FORWARDED_FOR"], "unknown")) return ($_SERVER["HTTP_X_FORWARDED_FOR"]);
+        if ($_SERVER["REMOTE_ADDR"] && strcasecmp($_SERVER["REMOTE_ADDR"], "unknown")) return ($_SERVER["REMOTE_ADDR"]);
+        if (isset ($_SERVER['REMOTE_ADDR']) && $_SERVER['REMOTE_ADDR'] && strcasecmp($_SERVER['REMOTE_ADDR'], "unknown")) return ($_SERVER['REMOTE_ADDR']);
+        return false;
     }
 
     final function data_($key = null, $default_value = false)
