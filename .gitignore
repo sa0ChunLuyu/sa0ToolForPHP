@@ -1,5 +1,5 @@
 
 .idea
 .DS_Store
-backend/config.php
-backend/controller
+backend
+socket
