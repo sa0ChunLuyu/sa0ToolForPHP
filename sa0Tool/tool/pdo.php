@@ -91,7 +91,7 @@ class pdoController
         }
     }
 
-    final function doSql($sql, $data)
+    final function doSql($sql, $data = [])
     {
         $pretreatment = $this->pdo->prepare($sql);
         $pretreatment->execute($data);
