@@ -73,7 +73,7 @@ class sa0Tool
 
     final function get_($e)
     {
-        $url = $e['url'] . http_build_query($e['data']);
+        $url = $e['url'] .'?'. http_build_query($e['data']);
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
