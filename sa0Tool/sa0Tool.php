@@ -27,7 +27,7 @@ class sa0Tool
         // Redis 创建 结束
     }
 
-    final function json_($data = 'Yo', $state = true, $stateKey = 'state')
+    final function json_($data = 'Yo', $state = APP_CONFIG['app_config']['json'] . '200', $stateKey = 'state')
     {
         exit(json_encode(array($stateKey => $state, 'data' => $data), JSON_UNESCAPED_UNICODE));
     }
@@ -73,7 +73,7 @@ class sa0Tool
 
     final function get_($e)
     {
-        $url = $e['url'] .'?'. http_build_query($e['data']);
+        $url = $e['url'] . '?' . http_build_query($e['data']);
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
