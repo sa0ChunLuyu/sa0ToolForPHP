@@ -90,10 +90,14 @@ class sa0ToolMaker
 
         // 判断函数 开始
         if ($funcName === 'default_func_name') {
-            if (method_exists($controller, 'index')) return $controller->index();
-            $this->push($controllerName);
+            if (!method_exists($controller, 'index')) $this->push($controllerName);
+            $controller->index();
+            return;
         }
-        if (!method_exists($controller, $funcName)) $this->push('function not found');
+        if (!method_exists($controller, $funcName)) {
+            if ($funcName[0] === '_' && $funcName[1] === '_') $this->push('function access denied');
+            $this->push('function not found');
+        };
         // 判断函数 结束
 
         $controller->$funcName();
