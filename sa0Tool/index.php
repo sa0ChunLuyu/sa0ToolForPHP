@@ -13,7 +13,7 @@ class sa0ToolMaker
     {
         // 设置 sa0Tool 信息 开始
         define(SA0_TOOL_TITLE, 'sa0Tool');
-        define(SA0_TOOL_VERSION, 'P02');
+        define(SA0_TOOL_VERSION, 'P03');
         define(SA0_TOOL_AUTHOR, 'sa0ChunLuyu');
         define(SA0_TOOL_DESCRIBE, 'Yo,sa0Tool forPHP.');
         define(SA0_TOOL_CONTENT, 'HAPPY HACKING');
