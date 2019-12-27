@@ -73,6 +73,7 @@ class sa0ToolMaker
         $filePath = APP_PATH . '/' . $controllerPath . '/' . $fileName . '.php';
 
         if (!is_file($filePath)) $this->push('controller not found');
+        if (substr($filePath, 0, 2) === '__') $this->push('controller access denied');
 
         define(CONTROLLER_NAME, $fileName);
         // 控制器相关 结束
