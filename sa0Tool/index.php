@@ -79,8 +79,6 @@ class sa0ToolMaker
 
         // 函数相关 开始
         $controllerName = $fileName . 'Controller';
-
-        if ($funcName === 'default_func_name') $this->push($controllerName);
         // 函数相关 结束
 
         // 引入控制器 开始
@@ -91,6 +89,10 @@ class sa0ToolMaker
         // 引入控制器 结束
 
         // 判断函数 开始
+        if ($funcName === 'default_func_name') {
+            if (method_exists($controller, 'index')) return $controller->index();
+            $this->push($controllerName);
+        }
         if (!method_exists($controller, $funcName)) $this->push('function not found');
         // 判断函数 结束
 
