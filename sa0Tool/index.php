@@ -37,6 +37,11 @@ class sa0ToolMaker
         // 配置文件 结束
 
 
+        // 设置时区 开始
+        isset(APP_CONFIG['defaultTimezone']) ? date_default_timezone_set(APP_CONFIG['defaultTimezone']) : date_default_timezone_set("PRC");
+        // 设置时区 结束
+
+
         // 跨域设置 开始
         $origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '';
 
